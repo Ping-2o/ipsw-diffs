@@ -276,7 +276,11 @@ jobs:
           git clone --quiet https://github.com/sgan81/apfs-fuse.git "$src"
           git -C "$src" checkout --quiet "$APFS_FUSE_SHA"
           git -C "$src" submodule update --init --recursive --quiet
-          cmake -S "$src" -B "$src/build" -DCMAKE_BUILD_TYPE=Release
+          # apfs-fuse's CMakeLists declares cmake_minimum_required(VERSION 2.8)
+          # and runner images ship CMake >= 4, which dropped support for < 3.5
+          # and hard-errors. Pin the policy floor instead of downgrading CMake.
+          cmake -S "$src" -B "$src/build" -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
           cmake --build "$src/build" --parallel "$(nproc)"
           sudo install -m 0755 "$src/build/apfs-fuse" /usr/local/bin/apfs-fuse
           command -v apfs-fuse
