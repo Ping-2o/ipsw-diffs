@@ -1,0 +1,148 @@
+## ave.videoencoder
+
+> `/System/Library/VideoCodecs/ave.videoencoder`
+
+```diff
+
+-913.43.1.0.0
+-  __TEXT.__text: 0x172018
++913.64.1.0.0
++  __TEXT.__text: 0x1751dc
+   __TEXT.__init_offsets: 0xc
+-  __TEXT.__const: 0x25294
+-  __TEXT.__gcc_except_tab: 0x6e4
+-  __TEXT.__cstring: 0x4c884
+-  __TEXT.__unwind_info: 0xa48
++  __TEXT.__const: 0x2534c
++  __TEXT.__gcc_except_tab: 0x6e8
++  __TEXT.__cstring: 0x4d6fa
++  __TEXT.__unwind_info: 0xa60
+   __TEXT.__objc_stubs: 0x0
+   __TEXT.__auth_stubs: 0x0
+   __TEXT.__objc_methname: 0x0
+
+   __DATA_CONST.__weak_got: 0x8
+   __DATA_CONST.__objc_selrefs: 0x8
+   __DATA_CONST.__got: 0x0
+-  __AUTH_CONST.__const: 0x58d0
+-  __AUTH_CONST.__cfstring: 0x3060
++  __AUTH_CONST.__const: 0x5950
++  __AUTH_CONST.__cfstring: 0x3080
+   __AUTH_CONST.__weak_auth_got: 0x28
+-  __AUTH_CONST.__auth_got: 0x760
++  __AUTH_CONST.__auth_got: 0x788
+   __DATA.__data: 0x80
+   __DATA_DIRTY.__data: 0x20
+   __DATA_DIRTY.__bss: 0x1068
+
+   - /usr/lib/libSystem.B.dylib
+   - /usr/lib/libc++.1.dylib
+   - /usr/lib/libobjc.A.dylib
+-  Functions: 1535
+-  Symbols:   2336
+-  CStrings:  6354
++  Functions: 1547
++  Symbols:   2353
++  CStrings:  6417
+ 
+Symbols:
++ GCC_except_table114
++ _CMBlockBufferAppendBufferReference
++ _CMBlockBufferCreateEmpty
++ _CMBlockBufferCreateWithBufferReference
++ _CMBlockBufferGetDataLength
++ _CMSampleBufferCreateCopyWithNewTiming
++ __Z36AVE_USL_Drv_SetInitialThreadPriorityPvi
++ __Z57AVE_Prop_AVC_GetMachThreadPriorityForThreadEmittingFramesPvS_PK13__CFAllocatorPK10__CFStringS_
++ __Z57AVE_Prop_AVC_SetMachThreadPriorityForThreadEmittingFramesPvS_PK10__CFStringPKv
++ __Z58AVE_Prop_HEVC_GetMachThreadPriorityForThreadEmittingFramesPvS_PK13__CFAllocatorPK10__CFStringS_
++ __Z58AVE_Prop_HEVC_SetMachThreadPriorityForThreadEmittingFramesPvS_PK10__CFStringPKv
++ __ZL18AVE_AV1_FH_IsShownPKhi
++ __ZN29H264VideoEncoderFrameReceiver18WrapAV1BlockBufferEP19OpaqueCMBlockBufferxixi
++ __ZN29H264VideoEncoderFrameReceiver19DrainAV1ReadyTokensEv
++ __ZN29H264VideoEncoderFrameReceiver22FlushAV1ReorderPendingEv
++ __ZN29H264VideoEncoderFrameReceiver8TokenPopEP17_S_AVE_FrameToken
++ __ZN29H264VideoEncoderFrameReceiver9TokenPushEP16_S_AVE_FrameInfo
++ __ZN7AVE_DAL24SetInitialThreadPriorityEi
+- GCC_except_table112
+CStrings:
++ "%lld %d AVE %s: %s:%d %s | H264VideoEncoder Error: AVE_USL_Drv_SetInitialThreadPriority, Null pointer for driver data."
++ "%lld %d AVE %s: %s:%d %s | H264VideoEncoder Error: AVE_USL_Drv_SetInitialThreadPriority, Null pointer for driver data.\n"
++ "%lld %d AVE %s: %s:%d %s | VCP has mismatch DPB number of frames with AVE %p %lld %p %p %p %d %d "
++ "%lld %d AVE %s: %s:%d %s | VCP has mismatch DPB number of frames with AVE %p %lld %p %p %p %d %d \n"
++ "%lld %d AVE %s: %s:%d %s | fail to set initial thread priority %p %lld %d %d"
++ "%lld %d AVE %s: %s:%d %s | fail to set initial thread priority %p %lld %d %d\n"
++ "%lld %d AVE %s: %s:%d %s | num pics out of range %u %u"
++ "%lld %d AVE %s: %s:%d %s | num pics out of range %u %u\n"
++ "%lld %d AVE %s: %s:%d FIG: Throughput calculated from iMaxFrameRate"
++ "%lld %d AVE %s: %s:%d FIG: Throughput calculated from iMaxFrameRate\n"
++ "%lld %d AVE %s: %s:%d turn off MCTF"
++ "%lld %d AVE %s: %s:%d turn off MCTF\n"
++ "%lld %d AVE %s: %s::%s Enter %p %lld %d"
++ "%lld %d AVE %s: %s::%s Enter %p %lld %d\n"
++ "%lld %d AVE %s: %s::%s Exit %p %lld %d %d"
++ "%lld %d AVE %s: %s::%s Exit %p %lld %d %d\n"
++ "%lld %d AVE %s: %s::%s:%d %s | %p TokenPush null frame"
++ "%lld %d AVE %s: %s::%s:%d %s | %p TokenPush null frame\n"
++ "%lld %d AVE %s: %s::%s:%d %s | AV1 token overflow %p %d"
++ "%lld %d AVE %s: %s::%s:%d %s | AV1 token overflow %p %d\n"
++ "%lld %d AVE %s: %s::%s:%d %s | AV1 token push failed %d frame %d"
++ "%lld %d AVE %s: %s::%s:%d %s | AV1 token push failed %d frame %d\n"
++ "%lld %d AVE %s: %s::%s:%d %s | WrapAV1BlockBuffer CMSampleBufferCreate failed %d"
++ "%lld %d AVE %s: %s::%s:%d %s | WrapAV1BlockBuffer CMSampleBufferCreate failed %d\n"
++ "%lld %d AVE %s: %s::%s:%d %s | WrapAV1BlockBuffer bad size %zu"
++ "%lld %d AVE %s: %s::%s:%d %s | WrapAV1BlockBuffer bad size %zu\n"
++ "%lld %d AVE %s: %s::%s:%d %s | WrapAV1BlockBuffer null block buffer"
++ "%lld %d AVE %s: %s::%s:%d %s | WrapAV1BlockBuffer null block buffer\n"
++ "%lld %d AVE %s: AV1 reorder bundle bbuf create failed %d"
++ "%lld %d AVE %s: AV1 reorder bundle bbuf create failed %d\n"
++ "%lld %d AVE %s: AV1 reorder disengaged with %d held / %d token(s) pending; flushing at frame %d"
++ "%lld %d AVE %s: AV1 reorder disengaged with %d held / %d token(s) pending; flushing at frame %d\n"
++ "%lld %d AVE %s: AV1 reorder hold overflow, dropping frame %d"
++ "%lld %d AVE %s: AV1 reorder hold overflow, dropping frame %d\n"
++ "%lld %d AVE %s: AV1 reorder ready FIFO overflow (bundle)"
++ "%lld %d AVE %s: AV1 reorder ready FIFO overflow (bundle)\n"
++ "%lld %d AVE %s: AV1 reorder ready FIFO overflow (sfx)"
++ "%lld %d AVE %s: AV1 reorder ready FIFO overflow (sfx)\n"
++ "%lld %d AVE %s: AV1 reorder retime failed %d for frame %lld; using placeholder timing"
++ "%lld %d AVE %s: AV1 reorder retime failed %d for frame %lld; using placeholder timing\n"
++ "%lld %d AVE %s: ENTER AVE_USL_Drv_SetInitialThreadPriority."
++ "%lld %d AVE %s: ENTER AVE_USL_Drv_SetInitialThreadPriority.\n"
++ "%lld %d AVE %s: EXIT AVE_USL_Drv_SetInitialThreadPriority %d."
++ "%lld %d AVE %s: EXIT AVE_USL_Drv_SetInitialThreadPriority %d.\n"
++ "(iNumOfFrames / 2) >= 0 && (iNumOfFrames / 2) <= (((16) > (15) ? (16) : (15)) + 1)"
++ "0 < iNumberOfTemporalLayers && iNumberOfTemporalLayers <= 7"
++ "21:06:10"
++ "913.64.1"
++ "AVE_Prop_AVC_GetMachThreadPriorityForThreadEmittingFrames"
++ "AVE_Prop_AVC_SetMachThreadPriorityForThreadEmittingFrames"
++ "AVE_Prop_HEVC_GetMachThreadPriorityForThreadEmittingFrames"
++ "AVE_Prop_HEVC_SetMachThreadPriorityForThreadEmittingFrames"
++ "AVE_USL_Drv_SetInitialThreadPriority"
++ "MachThreadPriorityForThreadEmittingFrames"
++ "MachThreadPriorityForThreadEmittingFrames = %d\n"
++ "Oct 13 2026"
++ "SetInitialThreadPriority"
++ "TokenPush"
++ "WrapAV1BlockBuffer"
++ "bb != __null"
++ "err == noErr && sbuf != __null"
++ "iSampleSize > 0"
++ "iUserRPSForFaceTime > 0 && iUserRPSForFaceTime < 65"
++ "kVTCompressionPropertyKey_MachThreadPriorityForThreadEmittingFrames"
++ "m_iAV1TokenCount >= 0 && m_iAV1TokenCount < 32"
++ "num <= (((16) > (15) ? (16) : (15)) + 1)"
++ "num_frames <= (16 + 1)"
++ "num_frames <= 16"
++ "pInfo->num_negative_pics <= 16 && pInfo->num_positive_pics <= 16"
++ "pSnapshot->num_ref_frame <= ((16) > (15) ? (16) : (15))"
++ "priority >= 0"
+- "(iNumOfFrames / 2) >= 0 && (iNumOfFrames / 2) <= (((16) > (16) ? (16) : (16)) + 1)"
+- "21:31:54"
+- "913.43.1"
+- "Aug 13 2026"
+- "iNumberOfTemporalLayers >= 1"
+- "iUserRPSForFaceTime > 0"
+- "num <= (((16) > (16) ? (16) : (16)) + 1)"
+- "pSnapshot->num_ref_frame <= ((16) > (16) ? (16) : (16))"
+```

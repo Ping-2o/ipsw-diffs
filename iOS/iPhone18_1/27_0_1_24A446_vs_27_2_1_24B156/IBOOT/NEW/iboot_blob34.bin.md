@@ -1,0 +1,49 @@
+## iboot_blob34.bin
+
+- `/SDKROOT/usr/local/standalone/firmware/acsk/V1_0/src/acBlock.cpp`
+- `las_tunableh_get_fig() == NULL`
+- `/SDKROOT/usr/local/standalone/firmware/acsk/V1_0/src/genericController.cpp`
+- `las_tunableh_read`
+- `shift_out_of_bounds`
+- `las_tunableh_fig_get_expression`
+- `divrem_overflow`
+- `UBSAN triggered SMC panic: unknown`
+- `%s:%d:%s: %s`
+- `pointer_overflow`
+- `missing_return`
+- `/SDKROOT/usr/local/standalone/firmware/acsk/V1_0/src/maxMinRC.cpp`
+- `las_tunableh_fig_get_value`
+- `type_mismatch`
+- `/SDKROOT/usr/local/standalone/firmware/acsk/V1_0/src/delay.cpp`
+- `nonnull_return`
+- `negate_overflow`
+- `invalid_builtin`
+- `nullability_return`
+- `las_tunableh_init`
+- `/SDKROOT/usr/local/standalone/firmware/acsk/V1_0/src/accumulator.cpp`
+- `(AWL) WARN:`
+- `function_type_mismatch`
+- `genericController sampling time is 0, which is incorrect`
+- `/SDKROOT/usr/local/standalone/firmware/acsk/V1_0/src/booleanLogic.cpp`
+- `implicit_conversion`
+- `alignment_assumption`
+- `nonnull_arg`
+- `cfi_check_fail`
+- `!las_tunableh_initialized()`
+- `nullability_arg`
+- `las_tunableh_write`
+- `load_invalid_value`
+- `mul_overflow`
+- `float_cast_overflow`
+- `genericController was not provided either error or added/subtracted signals`
+- `out_of_bounds`
+- `las_tunableh_fig_get_mask`
+- `add_overflow`
+- `vla_bound_not_positive`
+- `las_tunableh_module_evaluate`
+- `UBSAN triggered SMC panic: %s`
+- `sub_overflow`
+- `las_tunableh_apply`
+- `builtin_unreachable`
+- `dynamic_type_cache_miss`
+- `invalid_objc_cast`

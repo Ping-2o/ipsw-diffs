@@ -1,0 +1,41 @@
+## RTKit.bin
+
+- `RS: %s: InductiveTxGetRxSoC: remote_soc change: %d -> %d`
+- `InductiveTxStreamControlRxInd`
+- `InductiveTxUpdate`
+- `%s: 0x%x -> 0x%x`
+- `TXDS: spmi write to 0x%08X: from entry %d bytes %d`
+- `InductiveTxApplyBootFlagsFromFW`
+- `%s: cap=0x%x, tx_freq_mask=0x%x`
+- `TXDS: notify AP: comms resumed`
+- `TXDS: [%d %d]`
+- `TXDS: rmerr queue %d`
+- `TXDS: pout_tx_alloc_stream failed with ret=%d`
+- `TXDS: %s: [%d %d]`
+- `TXDS: notify AP: comms paused`
+- `TXDS: fw failed to transmit all data in stream=%d`
+- `InductiveSetPowerOutCapability`
+- `RS: kHostTxChimeDecision: dcsn=%d prm=%d`
+- `TXDS: %s: error: unknown evt = %d`
+- `TXDS: %s: stream_id=%d out of range`
+- `RS: TX FW state moved to Idle`
+- `InductiveTxProcessRxInd`
+- `InductiveTxDSEvent`
+- `TXDS: %s: terminated transactions due to disconnect`
+- `%s:tx:haltReason %d -> %d`
+- `RS: kHostTxIdentification; dev_type=0x%x fmly=%d prot=%d qi_ver=0x%x qpp_ver=0x%x`
+- `TXDS: deque tx pkt: stream=%d start=%d end=%d bytes=%d`
+- `%s: failed to send free log buf signal (ret=%d)`
+- `TXDS: notify AP: comms enabled`
+- `TXDS: notify AP: comms disabled; comms paused`
+- `TXDS: InductiveTxAddToTxStream failed with ret=%d`
+- `InductiveTxResetTxStreams`
+- `tx assert triggered!`
+- `InductiveTxSendData`
+- `smc/inductive/inductive_tx.cpp`
+- `%s:%d:tx:read_status failed; reset inductive ic`
+- `TXDS: error: InductiveTxGetTxStreamEntry error; ret=%d`
+- `TXDS: %s: unexpected data stream size`
+- `InductiveTxLogFreebuf`
+- `TXDS: %s: stream %d already in progress; skip`
+- `TXDS: st_pout_tx_start_transfer failed with ret=%d`
