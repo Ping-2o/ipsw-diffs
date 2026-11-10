@@ -1,0 +1,199 @@
+## HDSViewService
+
+> `/Applications/HDSViewService.app/HDSViewService`
+
+### Sections with Same Size but Changed Content
+
+- `__TEXT.__objc_methtype`
+- `__TEXT.__gcc_except_tab`
+- `__TEXT.__swift5_assocty`
+- `__TEXT.__swift5_proto`
+- `__TEXT.__swift5_protos`
+- `__TEXT.__swift_as_entry`
+- `__TEXT.__swift_as_ret`
+- `__TEXT.__swift_as_cont`
+- `__TEXT.__eh_frame`
+- `__DATA_CONST.__cfstring`
+- `__DATA_CONST.__objc_catlist`
+- `__DATA_CONST.__objc_protolist`
+- `__DATA_CONST.__objc_protorefs`
+- `__DATA_CONST.__objc_superrefs`
+- `__DATA_CONST.__objc_arraydata`
+- `__DATA_CONST.__objc_dictobj`
+- `__DATA_CONST.__objc_arrayobj`
+
+```diff
+
+-405.0.11.0.0
+-  __TEXT.__text: 0xbef38
+-  __TEXT.__auth_stubs: 0x1ab0
+-  __TEXT.__objc_stubs: 0x6040
+-  __TEXT.__objc_methlist: 0x29c8
+-  __TEXT.__const: 0x3a24
+-  __TEXT.__cstring: 0x6cd9
+-  __TEXT.__objc_classname: 0x116e
+-  __TEXT.__objc_methname: 0xa685
++405.10.36.0.0
++  __TEXT.__text: 0xc4fe0
++  __TEXT.__auth_stubs: 0x1ad0
++  __TEXT.__objc_stubs: 0x6240
++  __TEXT.__objc_methlist: 0x29e0
++  __TEXT.__const: 0x3a84
++  __TEXT.__cstring: 0x6f79
++  __TEXT.__objc_classname: 0x11ae
++  __TEXT.__objc_methname: 0xa895
+   __TEXT.__objc_methtype: 0x358b
+   __TEXT.__gcc_except_tab: 0x1dc
+-  __TEXT.__oslogstring: 0x72a5
+-  __TEXT.__constg_swiftt: 0x3774
+-  __TEXT.__swift5_typeref: 0x1684
+-  __TEXT.__swift5_builtin: 0x1cc
+-  __TEXT.__swift5_reflstr: 0x2934
+-  __TEXT.__swift5_fieldmd: 0x1fa0
++  __TEXT.__oslogstring: 0x7685
++  __TEXT.__constg_swiftt: 0x38cc
++  __TEXT.__swift5_typeref: 0x169c
++  __TEXT.__swift5_builtin: 0x1e0
++  __TEXT.__swift5_reflstr: 0x2a94
++  __TEXT.__swift5_fieldmd: 0x204c
+   __TEXT.__swift5_assocty: 0x390
+-  __TEXT.__swift5_capture: 0xc20
++  __TEXT.__swift5_capture: 0xcb0
+   __TEXT.__swift5_proto: 0x25c
+-  __TEXT.__swift5_types: 0x180
++  __TEXT.__swift5_types: 0x188
+   __TEXT.__swift5_protos: 0x24
+   __TEXT.__swift_as_entry: 0x10
+   __TEXT.__swift_as_ret: 0x1c
+   __TEXT.__swift_as_cont: 0x30
+-  __TEXT.__unwind_info: 0x18f0
++  __TEXT.__unwind_info: 0x1950
+   __TEXT.__eh_frame: 0x6c8
+-  __DATA_CONST.__const: 0x4d70
++  __DATA_CONST.__const: 0x4fb8
+   __DATA_CONST.__cfstring: 0xa20
+-  __DATA_CONST.__objc_classlist: 0x218
++  __DATA_CONST.__objc_classlist: 0x220
+   __DATA_CONST.__objc_catlist: 0x8
+   __DATA_CONST.__objc_protolist: 0x1a0
+   __DATA_CONST.__objc_imageinfo: 0x8
+
+   __DATA_CONST.__objc_arraydata: 0x80
+   __DATA_CONST.__objc_dictobj: 0xc8
+   __DATA_CONST.__objc_arrayobj: 0x90
+-  __DATA_CONST.__auth_got: 0xd68
+-  __DATA_CONST.__got: 0x858
+-  __DATA_CONST.__auth_ptr: 0x558
+-  __DATA.__objc_const: 0x6260
+-  __DATA.__objc_selrefs: 0x24b0
++  __DATA_CONST.__auth_got: 0xd78
++  __DATA_CONST.__got: 0x868
++  __DATA_CONST.__auth_ptr: 0x578
++  __DATA.__objc_const: 0x6388
++  __DATA.__objc_selrefs: 0x2530
+   __DATA.__objc_ivar: 0xec
+-  __DATA.__objc_data: 0x4420
+-  __DATA.__data: 0x3ea8
++  __DATA.__objc_data: 0x45e8
++  __DATA.__data: 0x4008
+   __DATA.__bss: 0x3950
+-  __DATA.__common: 0x468
++  __DATA.__common: 0x480
+   - /System/Library/Frameworks/AVFoundation.framework/AVFoundation
+   - /System/Library/Frameworks/Accelerate.framework/Accelerate
+   - /System/Library/Frameworks/Accounts.framework/Accounts
+
+   - /System/Library/PrivateFrameworks/IconServices.framework/IconServices
+   - /System/Library/PrivateFrameworks/ManagedConfiguration.framework/ManagedConfiguration
+   - /System/Library/PrivateFrameworks/MobileKeyBag.framework/MobileKeyBag
++  - /System/Library/PrivateFrameworks/MobileStoreDemoKit.framework/MobileStoreDemoKit
+   - /System/Library/PrivateFrameworks/OnBoardingKit.framework/OnBoardingKit
+   - /System/Library/PrivateFrameworks/ProxCardKit.framework/ProxCardKit
+   - /System/Library/PrivateFrameworks/RemoteUI.framework/RemoteUI
+
+   - /usr/lib/swift/libswift_Concurrency.dylib
+   - /usr/lib/swift/libswiftos.dylib
+   - /usr/lib/swift/libswiftsimd.dylib
+-  Functions: 2511
+-  Symbols:   844
+-  CStrings:  3157
++  Functions: 2551
++  Symbols:   849
++  CStrings:  3215
+ 
+Symbols:
++ _$s12FindMyLocate12ClientTargetVMa
++ _$s12FindMyLocate12ClientTargetVMn
++ _$s12FindMyLocate13RequestOriginV_12clientTargetAcA06ClientE0O_AA0hG0VSgtcfC
++ _$sSy10FoundationE20replacingOccurrences2of4with7options5rangeSSqd___qd_0_So22NSStringCompareOptionsVSnySS5IndexVGSgtSyRd__SyRd_0_r0_lF
++ _OBJC_CLASS_$_MSDKDemoState
++ _OBJC_CLASS_$_OBPrivacyLinkController
++ _swift_isEscapingClosureAtFileLocation
+- _$s12FindMyLocate13RequestOriginVyAcA06ClientE0OcfC
+- _swift_retain_x27
+CStrings:
++ "<loom:ViewService:matchHomePodSetupPresenterProgress> HomePodSetupPresenter: stateForLastScreens skipping trailing cards for Surround"
++ "<loom:ViewService:matchInteractorPrompts> HomePodSetupInteractor: Prompt for Light Show Opt In"
++ "<loom:ViewService:matchInteractorPrompts> HomePodSetupInteractor: Prompt for Surround Opt In"
++ "AudioAccessory11,1"
++ "B525ish"
++ "HomePodSetupInteractor %s: session counterpart color unknown, keeping model value %hhu"
++ "HomePodSetupInteractor stereoRoleSelected: role = %d | session = %hhu | model = %hhu"
++ "HomePodSetupInteractor: Light Show opted in: %{bool}d"
++ "HomePodSetupInteractor: Surround opted in: %{bool}d"
++ "HomePodSurroundProgress: event=%s status=%s"
++ "HomePodSurroundProgress: no viewModel, cannot update status"
++ "Ignoring FALLBACK asset bundle for color %hhu (mappedProductType %s): %s"
++ "LIGHT_SHOW_OPT_IN_PRIMARY"
++ "LIGHT_SHOW_OPT_IN_SECONDARY"
++ "LIGHT_SHOW_OPT_IN_SUBTITLE"
++ "LIGHT_SHOW_OPT_IN_TITLE"
++ "Localizable-SURROUND"
++ "Localizable-TOPCAP"
++ "SURROUND_DONE_SUBTITLE"
++ "SURROUND_DONE_TITLE"
++ "SURROUND_OPT_IN_BODY"
++ "SURROUND_OPT_IN_PRIMARY"
++ "SURROUND_OPT_IN_SECONDARY"
++ "SURROUND_OPT_IN_TITLE"
++ "SURROUND_PROGRESS_TITLE"
++ "_TtC14HDSViewService37HomePodSurroundProgressViewController"
++ "allMini"
++ "allRegular"
++ "blackColor"
++ "constraintEqualToAnchor:multiplier:constant:"
++ "createEnableSiriViewModel: no OnBoardingKit privacy link title for %s, omitting the privacy link"
++ "createLightShowViewModel: forceTopCapBigAsset override = %{bool}d"
++ "enabledLightShow"
++ "firstStackedViewTopConstraint"
++ "flow"
++ "forceTopCapBigAsset"
++ "imageBottomMargin"
++ "imageTopMargin"
++ "imageViewsGuideBottomConstraint"
++ "imageViewsGuideTopConstraint"
++ "isPressDemoModeEnabled:"
++ "isSecureDemoModeEnabled:"
++ "isStoreDemoModeEnabled"
++ "lightShow"
++ "lightShowOptedIn:"
++ "linkWithBundleIdentifiers:"
++ "localizedButtonTitle"
++ "mixed"
++ "optedIntoSurround"
++ "promptForStereoRole"
++ "setConstant:"
++ "setPromptForLightShowOptInHandler:"
++ "setPromptForSurroundOptIntHandler:"
++ "stereoRoleSelected"
++ "surround"
++ "surroundConstellationType"
++ "surroundCreated"
++ "surroundImage: constellation %s -> %s"
++ "surroundOptedIn:"
++ "surround_all_mini"
++ "surround_all_regular"
+- "HOMEPOD_SETUP_ABOUT_SIRIANDPRIVACY"
+- "HomePodSetupInteractor stereoRoleSelected: role = %d | stereoCounterpartColor = %hhu"
+- "mainTitleLabel"
+```

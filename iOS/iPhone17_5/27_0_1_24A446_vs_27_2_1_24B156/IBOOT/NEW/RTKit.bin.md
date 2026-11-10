@@ -1,0 +1,41 @@
+## RTKit.bin
+
+- `wakeup retry %d`
+- `TXDS: release_buf failed with ret=%d`
+- `drv_gg_veridian.cpp`
+- `RS: st_set_local_tether_state failed with ret=0x%x`
+- `TXDS: error in release_buf: embox.error=%d`
+- `TXDS: error in alloc_stream: buf_size (%d) < req_buf_size (%d)`
+- `%s: error in mbox rsp: embox.error=%d`
+- `%s: %s:%d: %s, %s GAPF error: addr=0x%llx, cmd=%c, valid=%d, id=%d`
+- `drivers/inductive/drv_inductive_hal.cpp`
+- `TXDS: start_transfer failed with ret=%d`
+- `no response available fifo_avail 0x%x ext header 0x%x`
+- `fw status invalid`
+- `crashlog: dump from dotara SRAM: %d bytes from 0x%x`
+- `Error Reading %d: %d`
+- `st_transfer_core`
+- `fw read zero. retrying: %d`
+- `drivers/devices/ptd.cpp`
+- `TXDS: error in start_transfer: embox.error=%d`
+- `fexcept %x`
+- `%s:%d SPMI error: %x`
+- `Write Shelf life state requested = %d, data=%d, rc = %d, `
+- `tx sreg %x ar %x h %x state %x qpp %d assert %d lpm %d`
+- `failed to wake up %d fwr %d st %d`
+- `Read Shelf life- data=%d, return state=%d, rc=%#x`
+- `st_pout_request_tx_initiated_role_swap`
+- `RS: st_role_swap_preferred failed with ret=0x%x`
+- `drivers/devices/gapf.cpp`
+- `TXDS: start_xfr: err=%d, stream_id=%d`
+- `drv_stpma0tr.cpp`
+- `DCL%02x: 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x 0x%08x`
+- `drivers/gasgauge/v1/veridian/drv_gg_veridian.cpp`
+- `drv_pmu_common_adc.cpp`
+- `wrong response type:%d, id:0x%x`
+- `no response available fifo_avail 0x%x, header 0x%x`
+- `TXDS: alloc_stream failed with ret=%d`
+- `st_read_multiple`
+- `GG:[%d]V/I/T/Q:%d/%d/%d/%d,DOD/ChgAccum:%d/%d`
+- `TXDS: error in alloc_stream: embox.error=%d; (sid=%d size=%d)`
+- `stpma0tr.cpp`

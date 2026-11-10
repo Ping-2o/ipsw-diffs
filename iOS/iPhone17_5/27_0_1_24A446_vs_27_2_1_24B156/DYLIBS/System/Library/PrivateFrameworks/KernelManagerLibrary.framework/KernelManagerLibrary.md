@@ -1,0 +1,32 @@
+## KernelManagerLibrary
+
+> `/System/Library/PrivateFrameworks/KernelManagerLibrary.framework/KernelManagerLibrary`
+
+```diff
+
+-70.32.0.0.0
+-  __TEXT.__text: 0x45c24
++71.5.0.0.0
++  __TEXT.__text: 0x45c30
+   __TEXT.__objc_methlist: 0x6c
+   __TEXT.__const: 0x3050
+   __TEXT.__constg_swiftt: 0x1788
+
+   __AUTH_CONST.__const: 0x2320
+   __AUTH_CONST.__objc_const: 0x23d8
+   __AUTH_CONST.__auth_got: 0x968
+-  __AUTH.__data: 0x3c8
+-  __DATA.__data: 0x828
++  __DATA.__data: 0x768
+   __DATA.__bss: 0x2d00
+   __DATA.__common: 0x58
+   __DATA_DIRTY.__objc_data: 0x1e0
+-  __DATA_DIRTY.__data: 0x2568
++  __DATA_DIRTY.__data: 0x29f0
+   __DATA_DIRTY.__common: 0x8
+   - /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+   - /System/Library/Frameworks/CryptoKit.framework/CryptoKit
+Functions:
+~ sub_2887e0a14 -> sub_28ed3297c : 1360 -> 1344
+~ sub_28881b2c4 -> sub_28ed6d21c : 1444 -> 1472
+```
