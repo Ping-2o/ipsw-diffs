@@ -298,8 +298,14 @@ jobs:
           # apfs-fuse's CMakeLists declares cmake_minimum_required(VERSION 2.8)
           # and runner images ship CMake >= 4, which dropped support for < 3.5
           # and hard-errors. Pin the policy floor instead of downgrading CMake.
+          #
+          # GCC 15 stopped leaking <cstdint>/<cstddef> transitively, so every
+          # uint8_t/uint32_t/size_t use in ApfsLib that relied on that leak no
+          # longer resolves. Force-include the header in every TU — one flag
+          # instead of patching each file the error surfaces in.
           cmake -S "$src" -B "$src/build" -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+            -DCMAKE_CXX_FLAGS="-include cstdint -include cstddef"
           cmake --build "$src/build" --parallel "$(nproc)"
           sudo install -m 0755 "$src/build/apfs-fuse" /usr/local/bin/apfs-fuse
           command -v apfs-fuse
