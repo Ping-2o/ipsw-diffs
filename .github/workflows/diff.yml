@@ -1,10 +1,15 @@
 name: Diff
 
-# Fork of blacktop/ipsw-diffs. Same pipeline as upstream (download IPSW pair,
-# diff with ipsw, commit the result), with two changes:
+# Fork of blacktop/ipsw-diffs, branch `optimised`.
+#
+# Same pipeline as upstream (download IPSW pair, diff with ipsw, commit), plus a
+# sparse partial clone so the job stops hauling the repo's ~3.4 GB of past diffs
+# through every checkout. Same three changes as `main` in this fork:
 #   * the iOS device list is a dispatch input, so any devices can be diffed;
 #   * each device diffs into its own iOS/<device>/ root and its own .cache file,
-#     so several devices can run in one dispatch without colliding.
+#     so several devices can run in one dispatch without colliding;
+#   * checkout is sparse (`.cache` + this leg's output dir), which is the
+#     `optimised` branch's whole point.
 # Manual overrides (prev_build/next_build) still skip the AppleDB baseline and
 # never advance the cache.
 on:
@@ -99,9 +104,23 @@ jobs:
     steps:
       - name: Checkout
         # persist-credentials stays on (default): the job pushes new diffs.
+        #
+        # Partial + sparse: the repo holds every past diff as files (~3.4 GB,
+        # 59k blobs), and none of it is needed to produce this leg's diff or to
+        # commit it. `sparse-checkout` implies `filter: blob:none` (see
+        # git-source-provider.ts), so only the cone's blobs are fetched —
+        # checkout drops from minutes to seconds.
+        #
+        # Safe with `git add -A` and with the push/rebase retry below: files
+        # outside the cone stay in the index as skip-worktree, so they are
+        # never staged as deletions, and a push from this partial clone keeps
+        # every un-fetched blob on the remote.
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 1
+          sparse-checkout: |
+            .cache
+            ${{ matrix.output }}
 
       # A diff of two IPSWs needs both present at once; UniversalMac images are
       # ~15 GB each, so reclaim the preinstalled toolchains a standard runner
