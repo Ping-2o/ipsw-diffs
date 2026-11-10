@@ -1,26 +1,31 @@
 name: Diff
 
-# Automatically diffs each newly-released macOS and iOS build against the
-# previously-recorded one. A cron polls AppleDB a few times a day; a run only
-# does work when a build it has not already diffed appears. Manual runs with
-# explicit builds are still supported via workflow_dispatch.
+# Fork of blacktop/ipsw-diffs. Same pipeline as upstream (download IPSW pair,
+# diff with ipsw, commit the result), with two changes:
+#   * the iOS device list is a dispatch input, so any devices can be diffed;
+#   * each device diffs into its own iOS/<device>/ root and its own .cache file,
+#     so several devices can run in one dispatch without colliding.
+# Manual overrides (prev_build/next_build) still skip the AppleDB baseline and
+# never advance the cache.
 on:
-  schedule:
-    # Once a day at ~11:30 America/Denver, when Apple usually posts new builds.
-    # Cron is UTC and does NOT observe DST: 17:30 UTC is 11:30 MDT (summer); in
-    # MST (winter) the same line lands at 10:30 local.
-    - cron: '30 17 * * *'  # 11:30 MDT (17:30 UTC)
+  # Dispatch only: this fork exists to produce specific diffs on demand, not to
+  # mirror upstream's daily build polling.
   workflow_dispatch:
     inputs:
       os:
         description: 'OS to diff'
         required: false
-        default: both
+        default: iOS
         type: choice
         options:
           - both
           - macOS
           - iOS
+      devices:
+        description: 'iOS devices, space separated (e.g. "iPhone17,5 iPhone18,1")'
+        required: false
+        default: 'iPhone18,1'
+        type: string
       prev_build:
         description: 'Previous build (manual override; requires next_build)'
         required: false
@@ -41,25 +46,54 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Build the matrix from the dispatch inputs. Device ids contain a comma
+  # ("iPhone17,5"), so the device list is whitespace-separated and each iOS leg
+  # gets its own output root (iOS/<device>) — otherwise two devices would write
+  # the same version-named diff directory and collide on push.
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        env:
+          REQUESTED_OS: ${{ github.event.inputs.os }}
+          DEVICES: ${{ github.event.inputs.devices }}
+        run: |
+          set -euo pipefail
+          os="${REQUESTED_OS:-iOS}"
+          devices="${DEVICES:-iPhone18,1}"
+          legs='[]'
+          if [ "$os" = "both" ] || [ "$os" = "iOS" ]; then
+            read -ra list <<< "$devices"
+            for dev in "${list[@]}"; do
+              [ -z "$dev" ] && continue
+              echo "iOS leg: $dev"
+              legs="$(jq -c --arg d "$dev" '. + [{os:"iOS", device:$d, output:("iOS/" + ($d | gsub(","; "_")))}]' <<<"$legs")"
+            done
+          fi
+          if [ "$os" = "both" ] || [ "$os" = "macOS" ]; then
+            echo "macOS leg: Mac17,6"
+            legs="$(jq -c '. + [{os:"macOS", device:"Mac17,6", output:"macOS"}]' <<<"$legs")"
+          fi
+          if [ "$(jq 'length' <<<"$legs")" = "0" ]; then
+            echo "::error::no legs to run (os=$os devices=$devices)"
+            exit 1
+          fi
+          echo "matrix={\"include\":$legs}" >> "$GITHUB_OUTPUT"
+
   diff:
+    needs: prepare
     permissions:
       contents: write
-      models: read
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 300
     strategy:
       fail-fast: false
-      # One leg at a time: each leg checks out after the previous one pushed,
-      # so commits to the same branch can't collide.
-      max-parallel: 1
-      matrix:
-        include:
-          - os: macOS
-            device: Mac17,6
-            output: macOS
-          - os: iOS
-            device: iPhone18,1
-            output: iOS
+      # Legs are independent VMs diffing different devices; the push step
+      # retries with a rebase, so parallel legs cannot collide on the branch.
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     env:
       DIFF_OUTPUT: ${{ matrix.output }}
     steps:
@@ -69,34 +103,16 @@ jobs:
         with:
           fetch-depth: 1
 
-      # Skip this matrix leg when a manual run targeted only the other OS.
-      - name: Should this OS run?
-        id: gate
-        env:
-          MATRIX_OS: ${{ matrix.os }}
-          REQUESTED_OS: ${{ github.event.inputs.os }}
-        run: |
-          # REQUESTED_OS is empty for cron/push and 'both'|'macOS'|'iOS' for
-          # manual runs. Run this leg unless a specific other OS was requested.
-          if [ -n "$REQUESTED_OS" ] && [ "$REQUESTED_OS" != "both" ] && [ "$REQUESTED_OS" != "$MATRIX_OS" ]; then
-            echo "run=false" >> "$GITHUB_OUTPUT"
-            echo "Skipping $MATRIX_OS (manual run requested $REQUESTED_OS only)"
-          else
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          fi
-
       # A diff of two IPSWs needs both present at once; UniversalMac images are
       # ~15 GB each, so reclaim the preinstalled toolchains a standard runner
       # ships with to fit the pair plus extraction. Swap is kept (16 GB RAM).
       - name: Free up disk space
-        if: steps.gate.outputs.run == 'true'
         uses: jlumbroso/free-disk-space@ceedf095f4ec1a097402bc6bd80831f2e1a6fde6 # v2.0.0
         with:
           tool-cache: true
           swap-storage: false
 
       - name: Install ipsw
-        if: steps.gate.outputs.run == 'true'
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
@@ -110,7 +126,6 @@ jobs:
       # AppleDB is cloned locally for --show-latest; cache it so each poll
       # doesn't re-clone hundreds of MB.
       - name: Cache AppleDB
-        if: steps.gate.outputs.run == 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.config/ipsw
@@ -120,7 +135,6 @@ jobs:
       # info to the step outputs consumed by the diff step.
       - name: Detect new build
         id: detect
-        if: steps.gate.outputs.run == 'true'
         env:
           MATRIX_OS: ${{ matrix.os }}
           DEVICE: ${{ matrix.device }}
@@ -129,7 +143,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          cache_file=".cache/${MATRIX_OS}.json"
+          device_key="$(printf '%s' "$DEVICE" | tr ',' '_')"
+          cache_file=".cache/${MATRIX_OS}-${device_key}.json"
 
           # Manual override: caller supplied both builds explicitly.
           if [ -n "$MANUAL_PREV" ] && [ -n "$MANUAL_NEXT" ]; then
@@ -248,7 +263,7 @@ jobs:
       # ipsw still diffs the kernelcache and firmware (they live unencrypted in
       # the IPSW), but the filesystem half of the diff is silently empty.
       - name: Install apfs-fuse
-        if: steps.gate.outputs.run == 'true' && steps.detect.outputs.do_diff == 'true'
+        if: steps.detect.outputs.do_diff == 'true'
         env:
           # Pinned: sgan81/apfs-fuse master has been stable since 2023-03-12.
           APFS_FUSE_SHA: 66b86bd525e8cb90f9012543be89b1f092b75cf3
@@ -269,7 +284,7 @@ jobs:
       # Kernel symbolicator signatures, so the kernelcache/KEXT diff carries
       # function names. Version-keyed under kernel/; ipsw picks the right set.
       - name: Fetch symbolicator signatures
-        if: steps.gate.outputs.run == 'true' && steps.detect.outputs.do_diff == 'true'
+        if: steps.detect.outputs.do_diff == 'true'
         run: git clone --quiet --depth 1 https://github.com/blacktop/symbolicator.git "$RUNNER_TEMP/symbolicator"
 
       # The dyld_shared_cache diff holds ~14M symbols in memory and OOM-kills the
@@ -279,7 +294,7 @@ jobs:
       # GitHub is moving to single-disk images where /mnt may be absent, so fall
       # back to / and size to whatever the chosen disk can spare.
       - name: Add swap
-        if: steps.gate.outputs.run == 'true' && steps.detect.outputs.do_diff == 'true'
+        if: steps.detect.outputs.do_diff == 'true'
         run: |
           set -euo pipefail
           swapdir=/mnt
@@ -300,7 +315,7 @@ jobs:
           free -h
 
       - name: Download and diff
-        if: steps.gate.outputs.run == 'true' && steps.detect.outputs.do_diff == 'true'
+        if: steps.detect.outputs.do_diff == 'true'
         env:
           MATRIX_OS: ${{ matrix.os }}
           DEVICE: ${{ matrix.device }}
@@ -345,64 +360,22 @@ jobs:
           # (skipped on a manual override where the real version is unknown).
           if [ "$NEXT_VERSION" != "manual" ]; then
             mkdir -p .cache
-            cache_file=".cache/${MATRIX_OS}.json"
+            device_key="$(printf '%s' "$DEVICE" | tr ',' '_')"
+            cache_file=".cache/${MATRIX_OS}-${device_key}.json"
             tmp="$(mktemp)"
             jq --arg m "$NEXT_MAJOR" --arg v "$NEXT_VERSION" --arg b "$NEXT_BUILD" --arg r "$NEXT_RELEASED" \
               '.[$m] = {version:$v, build:$b, released:$r}' "$cache_file" > "$tmp"
             mv "$tmp" "$cache_file"
           fi
 
-      - name: Generate README metadata
-        id: readme_metadata
-        if: steps.gate.outputs.run == 'true' && steps.detect.outputs.do_diff == 'true' && steps.detect.outputs.next_version != 'manual'
-        continue-on-error: true
-        uses: actions/ai-inference@2c43c91ae16266ca159d311430343c67a5ffa222 # v3
-        with:
-          model: openai/gpt-5
-          system-prompt: |
-            Return only a JSON object. Do not use markdown fences.
-            Use exactly these keys:
-              - section_label
-              - previous_label
-              - next_label
-            The section_label must group beta releases without the beta number, such as "macOS 27.0 beta".
-            The previous_label and next_label must include version text plus build in parentheses.
-          prompt: |
-            Create README index labels for an automated Apple firmware diff.
-
-            OS: ${{ matrix.os }}
-            Previous version: ${{ steps.detect.outputs.prev_version }}
-            Previous build: ${{ steps.detect.outputs.prev_build }}
-            Next version: ${{ steps.detect.outputs.next_version }}
-            Next build: ${{ steps.detect.outputs.next_build }}
-
-      - name: Update README index
-        if: steps.gate.outputs.run == 'true' && steps.detect.outputs.do_diff == 'true' && steps.detect.outputs.next_version != 'manual'
-        env:
-          MATRIX_OS: ${{ matrix.os }}
-          PREV_VERSION: ${{ steps.detect.outputs.prev_version }}
-          PREV_BUILD: ${{ steps.detect.outputs.prev_build }}
-          NEXT_VERSION: ${{ steps.detect.outputs.next_version }}
-          NEXT_BUILD: ${{ steps.detect.outputs.next_build }}
-          README_AI_JSON: ${{ steps.readme_metadata.outputs.response }}
-        run: |
-          set -euo pipefail
-          python3 .github/scripts/update-readme-index.py \
-            --os "$MATRIX_OS" \
-            --prev-version "$PREV_VERSION" \
-            --prev-build "$PREV_BUILD" \
-            --next-version "$NEXT_VERSION" \
-            --next-build "$NEXT_BUILD" \
-            --ai-json "$README_AI_JSON"
-
       # Single commit/push path for all outcomes: a fresh diff, a bootstrapped
       # baseline, or a re-recorded cache. Skips cleanly when nothing changed
       # (e.g. "no new build"). Without this, bootstrap/recache would rewrite
       # .cache locally but never persist it, re-triggering every run.
       - name: Commit and push
-        if: steps.gate.outputs.run == 'true'
         env:
           MATRIX_OS: ${{ matrix.os }}
+          DEVICE: ${{ matrix.device }}
           PREV_BUILD: ${{ steps.detect.outputs.prev_build }}
           NEXT_BUILD: ${{ steps.detect.outputs.next_build }}
           DO_DIFF: ${{ steps.detect.outputs.do_diff }}
@@ -417,9 +390,9 @@ jobs:
             exit 0
           fi
           if [ "$DO_DIFF" = "true" ]; then
-            msg="Automated Diff of ${MATRIX_OS} ${PREV_BUILD} -> ${NEXT_BUILD}"
+            msg="Automated Diff of ${MATRIX_OS} ${DEVICE} ${PREV_BUILD} -> ${NEXT_BUILD}"
           else
-            msg="chore(${MATRIX_OS}): record build baseline"
+            msg="chore(${MATRIX_OS} ${DEVICE}): record build baseline"
           fi
           git commit -m "$msg"
 
@@ -435,9 +408,9 @@ jobs:
           done
 
       - name: Summary
-        if: steps.gate.outputs.run == 'true'
         env:
           MATRIX_OS: ${{ matrix.os }}
+          DEVICE: ${{ matrix.device }}
           DO_DIFF: ${{ steps.detect.outputs.do_diff }}
           PREV_BUILD: ${{ steps.detect.outputs.prev_build }}
           NEXT_BUILD: ${{ steps.detect.outputs.next_build }}
@@ -446,7 +419,7 @@ jobs:
           NEW_MAJOR: ${{ steps.detect.outputs.new_major }}
         run: |
           {
-            echo "### ${MATRIX_OS}"
+            echo "### ${MATRIX_OS} ${DEVICE}"
             if [ "$DO_DIFF" = "true" ]; then
               echo "- Diffed \`${PREV_BUILD}\` → \`${NEXT_BUILD}\`"
             elif [ "$BOOTSTRAP" = "true" ]; then
